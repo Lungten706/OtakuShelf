@@ -1,0 +1,399 @@
+/* Base styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a;
+    color: white;
+}
+
+.admin-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 250px;
+    background-color: #2a2a2a;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h2 {
+    color: #8b5cf6;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background-color: #8b5cf6;
+}
+
+.logout {
+    margin-top: auto;
+}
+
+/* Main content styles */
+.main-content {
+    flex: 1;
+    padding: 30px;
+}
+
+.manga-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.add-manga-btn {
+    background-color: #8b5cf6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-manga-btn:hover {
+    background-color: #7c3aed;
+}
+
+/* Search and filter styles */
+.search-bar {
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2a2a2a;
+    color: white;
+}
+
+.filter-section {
+    margin-bottom: 20px;
+}
+
+.filter-section select {
+    background-color: #2a2a2a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+/* Table styles */
+.manga-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.manga-table th,
+.manga-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #404040;
+}
+
+.manga-table th {
+    background-color: #333;
+    font-weight: bold;
+}
+
+.manga-table tr:hover {
+    background-color: #333;
+}
+
+/* Button styles */
+.delete-btn {
+    background-color: #dc2626;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+    background-color: #b91c1c;
+}
+
+/* ... existing code ... */
+
+/* Modal styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal > div {
+    background: #2a2a2a;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 500px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal h3 {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.modal form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.modal label {
+    color: white;
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.modal input,
+.modal select {
+    width: 100%;
+    padding: 0.8rem;
+    background: #1a1a1a;
+    color: white;
+    border: 1px solid #333;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.modal input:focus,
+.modal select:focus {
+    border-color: #8b5cf6;
+    outline: none;
+}
+
+.modal .button-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 1.5rem;
+}
+
+.modal button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.modal .add-manga-btn {
+    background-color: #8b5cf6;
+    color: white;
+    flex: 1;
+}
+
+.modal .add-manga-btn:hover {
+    background-color: #7c3aed;
+}
+
+.modal .delete-btn {
+    background-color: transparent;
+    color: #dc2626;
+    border: 1px solid #dc2626;
+}
+
+.modal .delete-btn:hover {
+    background-color: #dc2626;
+    color: white;
+}
+
+/* Form field styles */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #e5e7eb;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.8rem;
+    background: #1a1a1a;
+    color: white;
+    border: 1px solid #333;
+    border-radius: 6px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #8b5cf6;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+}
+
+.manga-details {
+  background: #2a2a2a;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+
+.manga-details h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: white;
+}
+
+.manga-info {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.info-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-group label {
+  color: #8b5cf6;
+  font-size: 0.9rem;
+}
+
+.info-group span {
+  color: white;
+  font-size: 1rem;
+}
+
+.chapters-list {
+  margin-top: 2rem;
+}
+
+.chapters-list h4 {
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.chapter-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.chapter-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #1a1a1a;
+  border-radius: 6px;
+}
+
+.chapter-item span {
+  color: white;
+}
+
+.chapter-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chapter-actions button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.chapter-actions .edit-btn {
+  background: #8b5cf6;
+  color: white;
+}
+
+.chapter-actions .delete-btn {
+  background: transparent;
+  color: #dc2626;
+  border: 1px solid #dc2626;
+}
+
+.chapter-actions .delete-btn:hover {
+  background: #dc2626;
+  color: white;
+}
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #2a2a2a;
+    margin: 10% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #fff;
+}
+

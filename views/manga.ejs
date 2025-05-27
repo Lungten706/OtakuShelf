@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Manga Admin</title>
+  <link rel="stylesheet" href="/css/manga.css">
+</head>
+
+<body>
+  <div class="sidebar">
+    <h2>ADMIN</h2>
+    <ul>
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li class="active"><a href="/manga">Manga</a></li>
+      <li><a href="/chapters">Chapters</a></li>
+      <li><a href="/users">Users</a></li>
+      <li><a href="/genres">Genres</a></li>
+      <li><a href="/logout">Log Out</a></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <div class="header">
+      <h1>MANGA</h1>
+      <button id="addMangaBtn" data-modal-target="mangaModal">Add Manga</button>
+    </div>
+
+    <input type="text" placeholder="Search Manga" class="search-input" />
+
+    <table>
+      <thead>
+        <tr>
+          <th>Cover</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Chapters</th>
+          <th>Genres</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (mangas && mangas.length> 0) { %>
+          <% mangas.forEach(manga=> { %>
+            <tr>
+              <td>
+                <img src="<%= manga.cover_url || '/images/default-cover.png' %>" alt="<%= manga.title %>"
+                  class="cover-img" onerror="this.src='/images/default-cover.png'" />
+
+              </td>
+              <td>
+                <%= manga.title %>
+              </td>
+              <td>
+                <%= manga.author %>
+              </td>
+              <td>
+                <%= manga.chapters %>
+              </td>
+              <td>
+                <%= Array.isArray(manga.genres) ? manga.genres.join(', ') : manga.genres %></td>
+              <td><%= manga.status %></td>
+              <td>
+                <a href="/chapters?manga_id=<%= manga.id %>" class="edit-btn">Edit Chapters</a>
+                <form action="/manga/delete/<%= manga.id %>" method="POST" style="display:inline;">
+  <button type="submit" class="delete-btn" onclick="return confirm(' Are you sure you want to delete this manga?');">
+                  Delete
+                  </button>
+                  </form>
+
+              </td>
+            </tr>
+            <% }) %>
+              <% } else { %>
+                <tr>
+                  <td colspan="7">No manga found.</td>
+                </tr>
+                <% } %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal -->
+  <div id="mangaModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add New Manga</h2>
+        <span id="closeModalBtn" class="close">&times;</span>
+      </div>
+      <form id="mangaForm" action="/manga" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+          <label for="author">Author</label>
+          <input type="text" id="author" name="author" required>
+        </div>
+        <div class="form-group">
+          <label for="cover">Cover Image</label>
+          <input type="file" id="cover" name="cover" accept="image/*" required>
+        </div>
+        <div class="form-group">
+          <label for="chapters">Number of Chapters</label>
+          <input type="number" id="chapters" name="chapters" min="0" value="0">
+        </div>
+        <div class="form-group">
+          <label for="genres">Genres</label>
+          <select id="genres" name="genres" multiple required>
+            <option value="Action">Action</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Comedy">Comedy</option>
+            <option value="Drama">Drama</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Romance">Romance</option>
+            <option value="Sci-Fi">Sci-Fi</option>
+          </select>
+          <small>Hold Ctrl/Cmd to select multiple genres</small>
+        </div>
+        <div class="form-group">
+          <label for="status">Status</label>
+          <select id="status" name="status" required>
+            <option value="Ongoing">Ongoing</option>
+            <option value="Complete">Complete</option>
+            <option value="Hiatus">Hiatus</option>
+          </select>
+        </div>
+        <div class="button-group">
+          <button type="submit" class="submit-btn">Add Manga</button>
+          <button type="button" class="cancel-btn" id="cancelBtn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/admin.js"></script>
+</body>
+
+</html>

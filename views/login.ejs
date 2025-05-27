@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - OkatuShelf</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+    <nav class="navbar">
+        <h1 class="logo">OkatuShelf</h1>
+        <div class="nav-links">
+            <a href="/signup">Sign Up</a>
+        </div>
+    </nav>
+
+    <main class="form-container">
+        <h2>Login</h2>
+        <form action="/login" method="POST">
+            <input type="email" name="email" placeholder="Email" required />
+            <input type="password" name="password" placeholder="Password" required />
+            
+            <div class="admin-section">
+                <input type="checkbox" id="isAdmin" name="isAdmin">
+                <label for="isAdmin">Login as Admin</label>
+                <input type="password" name="adminCode" id="adminCode" placeholder="Admin Code" style="display: none;">
+            </div>
+
+            <div class="form-footer">
+                <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+
+        <script>
+            document.getElementById('isAdmin').addEventListener('change', function() {
+                const adminCodeInput = document.getElementById('adminCode');
+                adminCodeInput.style.display = this.checked ? 'block' : 'none';
+                adminCodeInput.required = this.checked;
+            });
+        </script>
+    </main>
+</body>
+
+</html>

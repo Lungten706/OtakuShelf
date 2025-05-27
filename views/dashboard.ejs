@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OtakuShelf - Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h1>ADMIN</h1>
+            <nav>
+                <a href="/dashboard" class="active">Dashboard</a>
+                <a href="/manga">Manga</a>
+                <a href="/chapters">Chapters</a>
+                <a href="/users">Users</a>
+                <a href="/genres">Genres</a>
+                <a href="/logout">Log Out</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="dashboard-container">
+    <h1>Admin Dashboard</h1>
+    <div class="stats">
+      <div class="stat-card">
+        <h2>Total Mangas</h2>
+        <p><%= totalMangas %></p>
+      </div>
+      <div class="stat-card">
+        <h2>Total Users</h2>
+        <p><%= totalUsers %></p>
+      </div>
+      <div class="stat-card">
+        <h2>Total Genres</h2>
+        <p><%= totalGenres %></p>
+      </div>
+    </div>
+
+    <div class="recent-uploads">
+      <h2>Recent Uploads</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Uploaded At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% recentUploads.forEach(upload => { %>
+            <tr>
+              <td><%= upload.title %></td>
+              <td><%= upload.author %></td>
+              <td><%= new Date(upload.created_at).toLocaleString() %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+    </section>
+        </main>
+    </div>
+</body>
+</html>

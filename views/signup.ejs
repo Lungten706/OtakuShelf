@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up - OtakuShelf</title>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+  <nav class="navbar">
+    <h1 class="logo">OtakuShelf</h1>
+    <div class="nav-links">
+      <a href="/login">Login</a>
+    </div>
+  </nav>
+
+  <main class="form-container">
+    <h2>Sign Up</h2>
+    <form action="/auth/signup" method="POST">
+      <input type="text" name="name" placeholder="Name" required />
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="password" name="password" placeholder="Password" required />
+
+      <div class="admin-section">
+        <label>
+          <input type="checkbox" name="isAdmin" value="true" />
+          Register as Admin
+        </label>
+        <input type="password" name="adminCode" placeholder="Admin Code (if registering as admin)" />
+      </div>
+
+      <button type="submit">Sign Up</button>
+    </form>
+  </main>
+</body>
+</html>
