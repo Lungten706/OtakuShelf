@@ -11,6 +11,7 @@ exports.getHomePage = async (req, res) => {
   }
 };
 
+
 exports.getMangaDetails = async (req, res) => {
   const { titleSlug } = req.params;
 

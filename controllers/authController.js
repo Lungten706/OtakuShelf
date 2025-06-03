@@ -211,12 +211,24 @@ exports.logout = (req, res) => {
 };
 
 // Landing page
-exports.getLanding = (req, res) => {
-  req.session.destroy(err => {
-    if (err) console.error('Landing Session Error:', err);
-    res.render('landing');
-  });
+exports.getLanding = async (req, res) => {
+  try {
+    const mangas = await pool.query('SELECT * FROM manga ORDER BY created_at DESC LIMIT 6');
+    console.log('Fetched mangas for landing:', mangas.rows);
+    res.render('landing', {
+      user: req.session.user,
+      mangas: mangas.rows
+    });
+  } catch (err) {
+    console.error('Home Error:', err);
+    res.render('landing', {
+      user: req.session.user,
+      mangas: []
+    });
+  }
 };
+
+
 
 // Home for users
 exports.home = async (req, res) => {

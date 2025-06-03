@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>OkatsuShelf - Home</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
   <!-- Navigation -->
   <header>
@@ -28,20 +30,22 @@
     <section class="featured">
       <h3>Featured Manga</h3>
       <div class="manga-cards">
-        <div class="card">
-          <img src="/images/attrack.jpg" alt="Attack on Titan">
-          <p>Attack on Titan</p>
-        </div>
-        <div class="card">
-          <img src="/images/naruto.jpg" alt="Naruto">
-          <p>Naruto</p>
-        </div>
-        <div class="card">
-          <img src="/images/hero.jpg" alt="My Hero Academia">
-          <p>My Hero Academia</p>
-        </div>
+        <% if (mangas.length> 0) { %>
+          <% mangas.forEach(manga=> { %>
+            <div class="card">
+              <img src="<%= manga.cover_url %>" alt="<%= manga.title %>">
+              <p>
+                <%= manga.title %>
+              </p>
+            </div>
+            <% }) %>
+              <% } else { %>
+                <p>No manga available at the moment.</p>
+                <% } %>
       </div>
+
     </section>
   </main>
 </body>
+
 </html>
