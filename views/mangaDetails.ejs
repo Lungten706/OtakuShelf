@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>
+    <%= manga.title %> - Manga Details
+  </title>
+  <link rel="stylesheet" href="/css/mangaDetails.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+
+<body>
+  <header>
+    <nav>
+      <h2>OtakuShelf</h2>
+      <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <body>
+    <div class="manga-container">
+      <div class="manga-header">
+        <img src="<%= manga.cover_url || '/images/default-cover.png' %>" alt="<%= manga.title %>" class="manga-cover">
+        <div class="manga-details">
+          <h1 class="manga-title">
+            <%= manga.title %>
+          </h1>
+          <div class="manga-info">
+            <div class="info-item">
+              <div class="info-label">Author</div>
+              <div class="info-value">
+                <%= manga.author %>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Status</div>
+              <div class="info-value">
+                <%= manga.status %>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Genres</div>
+              <div class="info-value">
+                <%= manga.genres %>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Total Chapters</div>
+              <div class="info-value">
+                <%= chapters.length %>
+              </div>
+            </div>
+          </div>
+          <div class="button-group">
+            <% if (chapters && chapters.length> 0) { %>
+              <a href="/OtakuShelf/<%= manga.title.replace(/\s+/g, '-').toLowerCase() %>/<%= chapters[0].chapter_number %>"
+                class="action-btn">Read First</a>
+
+              <a href="/OtakuShelf/<%= manga.title.replace(/\s+/g, '-').toLowerCase() %>/<%= chapters[chapters.length - 1].chapter_number %>"
+                class="action-btn">Read Last</a>
+              <% } else { %>
+                <p class="no-chapter-msg">No chapters available yet.</p>
+                <% } %>
+          </div>
+
+        </div>
+      </div>
+      <div class="chapter-container">
+        <h3>Chapters</h3>
+        <ul class="chapter-list">
+          <% chapters.forEach((chapter)=> { %>
+            <li class="chapter-item">
+              <span class="chapter-title">Chapter <%= chapters.chapter_number %>: <%= chapters.title %></span>
+              <a href="/OtakuShelf/<%= manga.title.replace(/\s+/g, '-').toLowerCase() %>/<%= chapter.chapter_number %>"
+                class="read-btn">Read</a>
+
+
+            </li>
+            <% }) %>
+        </ul>
+      </div>
+    </div>
+  </body>
+
+</html>

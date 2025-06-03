@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sign Up - OtakuShelf</title>
-  <link rel="stylesheet" href="/css/style.css"/>
+  <title>Signup</title>
+  <link rel="stylesheet" href="/css/signup.css" />
 </head>
+
 <body>
-  <nav class="navbar">
-    <h1 class="logo">OtakuShelf</h1>
-    <div class="nav-links">
-      <a href="/login">Login</a>
-    </div>
-  </nav>
+  <div class="navbar">
+    <div class="logo">OkatuShelf</div>
+  </div>
+  <div class="login-container">
+    <h2>Signup</h2>
 
-  <main class="form-container">
-    <h2>Sign Up</h2>
-    <form action="/auth/signup" method="POST">
-      <input type="text" name="name" placeholder="Name" required />
-      <input type="email" name="email" placeholder="Email" required />
-      <input type="password" name="password" placeholder="Password" required />
+    <% if (message) { %>
+      <p class="message">
+        <%= message %>
+      </p>
+      <% } %>
 
-      <div class="admin-section">
-        <label>
-          <input type="checkbox" name="isAdmin" value="true" />
-          Register as Admin
-        </label>
-        <input type="password" name="adminCode" placeholder="Admin Code (if registering as admin)" />
-      </div>
+        <form action="/signup" method="POST">
+          <input type="text" name="name" placeholder="Full Name" required />
+          <input type="email" name="email" placeholder="Email" required />
+          <input type="password" name="password" placeholder="Password" required />
+          <button type="submit">Sign Up</button>
+        </form>
 
-      <button type="submit">Sign Up</button>
-    </form>
-  </main>
+        <p class="signup-text">
+          Already have an account? <a href="/login">Login</a>
+        </p>
+  </div>
 </body>
+
 </html>

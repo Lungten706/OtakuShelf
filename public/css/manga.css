@@ -1,226 +1,192 @@
-/* Base styles */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #1a1a1a;
-    color: white;
-}
+@import url('base.css');
 
-/* Admin container layout */
-.admin-container {
-    display: flex;
-    min-height: 100vh;
-    overflow: hidden;
-}
-
-/* Sidebar styles */
-.sidebar {
-    width: 250px;
-    background: #8b5cf6;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    height: 100vh;
-}
-
-.sidebar h2 {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.sidebar nav {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.sidebar a {
-    color: white;
-    text-decoration: none;
-    padding: 10px;
-    border-radius: 5px;
-    transition: background 0.3s;
-}
-
-.sidebar a:hover,
-.sidebar a.active {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.logout {
-    margin-top: auto;
-}
-
-/* Main content styles */
+/* Main Content */
 .main-content {
-    flex: 1;
-    padding: 20px;
-    margin-left: 250px;
-    height: 100vh;
-    overflow-y: auto;
+  flex: 1;
+  padding: 30px;
+  background-color: #1f1f1f;
+  overflow-y: auto;
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-/* Search styles */
-.search-bar {
-    margin-bottom: 20px;
+.header h1 {
+  font-size: 24px;
 }
 
-.search-bar input {
-    width: 100%;
-    padding: 10px;
-    background: #2a2a2a;
-    border: none;
-    border-radius: 5px;
-    color: white;
+#addMangaBtn {
+  background-color: #7d2ae8;
+  color: white;
+  margin: 0;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-/* Table styles */
+#addMangaBtn:hover {
+  background-color: #9f53ff;
+}
+/* Table */
 table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #2a2a2a;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 20px;
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-table th,
-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #3a3a3a;
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  color: white;
+}
+
+thead {
+  background-color: #1c1c1c;
+}
+
+tr {
+  border-bottom: 1px solid #444;
+}
+
+tr:last-child {
+  border-bottom: none;
 }
 
 .cover-img {
-    width: 60px;
-    height: 85px;
-    object-fit: cover;
-    border-radius: 4px;
-    display: block;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
 }
 
-/* Button styles */
-.add-btn {
-    padding: 10px 20px;
-    background: #8b5cf6;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
+/* Action Buttons */
 .edit-btn,
 .delete-btn {
-    padding: 6px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-right: 5px;
+  padding: 6px 12px;
+  font-size: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-right: 5px;
 }
 
 .edit-btn {
-    background: #8b5cf6;
-    color: white;
+  background-color: #7d2ae8;
+  color: white;
+  text-decoration: none;
+}
+
+.edit-btn:hover {
+  background-color: #60a5fa;
 }
 
 .delete-btn {
-    background: #ef4444;
-    color: white;
+  background-color: #ef4444;
+  color: white;
 }
 
-/* Modal styles */
+.delete-btn:hover {
+  background-color: #f87171;
+}
+
+/* Modal */
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    overflow-y: auto;
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .modal-content {
-    background: #2a2a2a;
-    margin: 5% auto;
-    padding: 20px;
-    width: 90%;
-    max-width: 600px;
-    border-radius: 8px;
-    position: relative;
-    color: white;
+  background-color: #2c2c2c;
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 500px;
+  color: white;
+  max-height: 80vh;         /* Limit modal height */
+  overflow-y: auto;         /* Enable vertical scroll */
+  box-sizing: border-box;   /* Ensure padding doesn't break height */
 }
 
-.close {
-    position: absolute;
-    right: 20px;
-    top: 10px;
-    font-size: 28px;
-    font-weight: bold;
-    color: white;
-    cursor: pointer;
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* Form styles */
+.modal-header .close {
+  font-size: 28px;
+  cursor: pointer;
+}
+
 .form-group {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
+  display: block;
+  margin-bottom: 6px;
 }
 
 .form-group input,
 .form-group select {
-    width: 100%;
-    padding: 8px;
-    background: #1a1a1a;
-    border: 1px solid #3a3a3a;
-    border-radius: 4px;
-    color: white;
+  width: 100%;
+  padding: 8px;
+  background-color: #444;
+  border: none;
+  border-radius: 6px;
+  color: white;
+}
+
+.form-group small {
+  color: #ccc;
 }
 
 .button-group {
-    margin-top: 20px;
-    display: flex;
-    gap: 10px;
-}
-
-.submit-btn,
-.cancel-btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
 }
 
 .submit-btn {
-    background: #8b5cf6;
-    color: white;
-    flex: 1;
+  background-color: #7d2ae8;
+  color: black;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
 }
 
 .cancel-btn {
-    background: #ef4444;
-    color: white;
+  background-color: #f87171;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
 }
 
 .submit-btn:hover {
-    background: #7c3aed;
+  background-color: #9f53ff;
 }
 
 .cancel-btn:hover {
-    background: #dc2626;
+  background-color: #fca5a5;
 }

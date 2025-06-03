@@ -9,20 +9,32 @@ exports.handleFavicon = (req, res) => {
 
 exports.renderMangaAdminPage = async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM manga ORDER BY created_at DESC');
+        const result = await pool.query(`
+      SELECT 
+        m.id,
+        m.title,
+        m.author,
+        m.cover_url,
+        m.genres,
+        m.status,
+        (
+          SELECT COUNT(*) FROM chapters c WHERE c.manga_id = m.id
+        ) AS chapters
+      FROM manga m
+    `);
         const mangas = result.rows;
 
         console.log('Fetched manga:', mangas); // Debug log
 
-        res.render('manga', { 
+        res.render('manga', {
             mangas: mangas || [],
-            user: req.session.user 
+            user: req.session.user
         });
     } catch (err) {
         console.error('Error fetching manga:', err);
-        res.render('manga', { 
+        res.render('manga', {
             mangas: [],
-            user: req.session.user 
+            user: req.session.user
         });
     }
 };
@@ -49,79 +61,23 @@ exports.addManga = async (req, res) => {
 exports.getMangaList = async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM manga ORDER BY created_at DESC');
-        res.render('home', { 
+        res.render('home', {
             mangas: result.rows,
-            user: req.session.user 
+            user: req.session.user
         });
     } catch (err) {
         console.error('Error fetching manga list:', err);
-        res.render('home', { 
+        res.render('home', {
             mangas: [],
-            user: req.session.user 
+            user: req.session.user
         });
     }
 };
 
 
 // Get Manga by ID with basic validation
-exports.getMangaById = async (req, res) => {
-    try {
-        const id = parseInt(req.params.id);
-
-        if (isNaN(id) || id < 1) {
-            return res.redirect('/manga');
-        }
-
-        const result = await pool.query('SELECT * FROM manga WHERE id = $1', [id]);
-        const manga = result.rows[0];
-
-        if (!manga) {
-            return res.redirect('/manga');
-        }
-
-        // You can fetch chapters here if needed
-        const chaptersResult = await pool.query(
-            'SELECT * FROM chapters WHERE manga_id = $1 ORDER BY chapter_number',
-            [id]
-        );
-
-        res.render('readManga', {
-            manga,
-            chapters: chaptersResult.rows
-        });
-    } catch (error) {
-        console.error('Manga Details Error:', error);
-        res.redirect('/manga');
-    }
-};
-
 
 // Get Manga Details + Chapters
-exports.getMangaDetails = async (req, res) => {
-    try {
-        const { id } = req.params;
-
-        const mangaResult = await pool.query('SELECT * FROM manga WHERE id = $1', [id]);
-        const manga = mangaResult.rows[0];
-
-        if (!manga) {
-            return res.status(404).send('Manga not found');
-        }
-
-        const chaptersResult = await pool.query(
-            'SELECT * FROM chapters WHERE manga_id = $1 ORDER BY chapter_number',
-            [id]
-        );
-
-        res.render('readManga', {
-            manga,
-            chapters: chaptersResult.rows
-        });
-    } catch (error) {
-        console.error('Manga Details Error:', error);
-        res.status(500).send('Error loading manga details');
-    }
-};
 const fs = require('fs');
 const path = require('path');
 

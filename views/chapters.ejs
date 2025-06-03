@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Chapters Management</title>
+  <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/chapter.css">
 </head>
 
@@ -14,13 +15,9 @@
       <nav>
         <a href="/dashboard">Dashboard</a>
         <a href="/manga">Manga</a>
-        <a class="active" href="/chapters">Chapters</a>
-        <a href="/users">Users</a>
-        <a href="/genres">Genres</a>
-      </nav>
-      <div class="logout">
+        <a href="/chapters" class="active">Chapters</a>
         <a href="/logout">Log Out</a>
-      </div>
+      </nav>
     </div>
 
     <div class="main-content">
@@ -36,7 +33,9 @@
             <div class="manga-details">
               <h3>
                 <%= manga.title %>
+                  (<%= chapters.filter(ch=> ch.manga_id === manga.id).length %> chapters)
               </h3>
+
 
               <div class="manga-info">
                 <div class="info-group">
@@ -62,11 +61,12 @@
                         <div class="chapter-item">
                           <span>Chapter <%= index + 1 %>: <%= chapter.title %></span>
                           <div class="chapter-actions">
-                            <button class="edit-btn">Edit</button>
-                            <form method="POST" action="/admin/chapters/<%= chapter.id %>?_method=DELETE"
-                              style="display:inline;">
-                              <button class="delete-btn" type="submit">Delete</button>
+                            <form action="/admin/chapters/delete/<%= chapter.id %>" method="POST"
+                              onsubmit="return confirm('Are you sure you want to delete this chapter?');">
+                              <button type="submit">Delete</button>
                             </form>
+
+
                           </div>
                         </div>
                         <% }) %>
@@ -105,6 +105,11 @@
           <label for="title">Chapter Title</label>
           <input type="text" id="title" name="title" required>
         </div>
+        <div class="form-group">
+          <label for="chapter_number">Chapter Number</label>
+          <input type="number" id="chapter_number" name="chapter_number" required min="1">
+        </div>
+
 
         <div class="form-group">
           <label for="pdf">Chapter PDF</label>

@@ -1,0 +1,64 @@
+/* base.css */
+:root {
+  --primary: #8b5cf6;
+  --dark: #121212;
+  --card: #2a2a2a;
+  --light: #f3f4f6;
+  --accent: #d1d5db;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background-color: var(--dark);
+  color: white;
+  display: flex;
+  height: 100vh;
+}
+
+.admin-container {
+  display: flex;
+  width: 100%;
+}
+
+.sidebar {
+  background-color: var(--primary);
+  width: 220px;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: black;
+  background-color: transparent;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.sidebar a.active,
+.sidebar a:hover {
+  background-color: #a78bfa;
+  color: black;
+}

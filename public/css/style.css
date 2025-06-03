@@ -1,39 +1,56 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
   background-color: #0d0d0d;
-  color: #fff;
+  color: white;
 }
 
-header nav {
+/* Navigation Styles */
+nav, .navbar {
+  background: #1a1a1a;
+  padding: 15px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  background-color: #1a1a1a;
 }
 
-nav h2 {
-  color: #fff;
+nav h2, .logo {
+  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
-nav ul {
-  list-style: none;
+nav ul, .nav-links {
   display: flex;
-  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-nav ul li a {
-  color: #bbb;
+nav ul li, .nav-links a {
+  margin-left: 20px;
+}
+
+nav ul li a, .nav-links a {
+  color: #ccc;
   text-decoration: none;
-  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background 0.3s, color 0.3s;
 }
 
-nav ul li a:hover {
-  color: #fff;
+nav ul li a:hover,
+.nav-links a:hover,
+.nav-links a.active,
+nav ul li a.active {
+  color: white;
+  background: #2a2a2a;
 }
 
+/* Hero Section */
 .hero-section {
   text-align: center;
   margin-top: 50px;
@@ -57,6 +74,7 @@ nav ul li a:hover {
   text-decoration: none;
 }
 
+/* Featured Section */
 .featured {
   margin-top: 50px;
 }
@@ -85,39 +103,71 @@ nav ul li a:hover {
   width: 100%;
   border-radius: 8px;
 }
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background-color: #0e0e10;
-  color: white;
+
+.manga-title {
+  font-size: 1rem;
 }
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #1a1a1d;
-  padding: 1rem 2rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+/* Home Manga Grid */
+.home-container {
+  padding: 2rem;
 }
 
-.logo {
+.section-title {
   font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 20px;
   color: white;
 }
 
-.nav-links a {
-  margin-left: 1rem;
+.manga-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+.manga-card {
+  background: #1a1a1a;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.manga-card:hover {
+  transform: translateY(-5px);
+}
+
+.manga-card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.manga-card p {
+  padding: 10px;
+  margin: 0;
   color: white;
-  text-decoration: none;
+  text-align: center;
   font-weight: 500;
+  font-size: 0.85rem; /* smaller font */
 }
 
-.nav-links a:hover {
-  color: #8888ff;
+
+.manga-card h2 {
+  font-size: 1rem;
+  text-align: center;
+  margin: 10px 0;
+  font-weight: 500;
+  color: white; /* ✅ Add this line */
 }
 
-.form-container {
+.manga-card a {
+  text-decoration: none;
+}
+
+/* Form Container */
+.form-container, .login-box {
   max-width: 400px;
   margin: 5rem auto;
   padding: 2rem;
@@ -127,11 +177,12 @@ body {
   text-align: center;
 }
 
-.form-container h2 {
+.form-container h2, .login-box h2 {
   margin-bottom: 1.5rem;
+  font-size: 2rem;
 }
 
-input {
+input, .login-box input {
   width: 100%;
   padding: 0.75rem;
   margin: 0.5rem 0;
@@ -141,10 +192,12 @@ input {
   color: white;
   font-size: 1rem;
 }
+
 #adminCode {
   display: none;
 }
-button {
+
+button, .login-box button {
   width: 100%;
   padding: 0.75rem;
   background-color: #5b5bd6;
@@ -156,7 +209,7 @@ button {
   margin-top: 1rem;
 }
 
-button:hover {
+button:hover, .login-box button:hover {
   background-color: #6c6cf0;
 }
 
@@ -169,8 +222,8 @@ button:hover {
   color: #8888ff;
   text-decoration: none;
 }
-/* Common styles already shared earlier */
 
+/* Login Page */
 .login-container {
   display: flex;
   justify-content: center;
@@ -178,140 +231,7 @@ button:hover {
   height: 80vh;
 }
 
-.login-box {
-  width: 100%;
-  max-width: 400px;
-  background-color: #1f1f23;
-  padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
-  text-align: center;
-}
-
-.login-box h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  color: white;
-}
-
-.login-box input {
-  width: 100%;
-  padding: 0.8rem;
-  margin: 0.6rem 0;
-  background-color: #2a2a30;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  font-size: 1rem;
-}
-
-.login-box button {
-  width: 100%;
-  padding: 0.8rem;
-  background-color: #5b5bd6;
-  border: none;
-  color: white;
-  border-radius: 8px;
-  font-size: 1rem;
-  margin-top: 1rem;
-  cursor: pointer;
-}
-
-.login-box button:hover {
-  background-color: #6c6cf0;
-}
-
-.form-link {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-}
-
-.form-link a {
-  color: #8888ff;
-  text-decoration: none;
-}
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #1a1a1a;
-  color: white;
-}
-
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem 2rem;
-  background-color: #121212;
-  align-items: center;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.nav-links a {
-  margin-left: 1.5rem;
-  color: #ccc;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.nav-links a.active,
-.nav-links a:hover {
-  color: white;
-}
-
-.home-container {
-  padding: 2rem;
-}
-
-.section-title {
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.manga-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding: 20px;
-}
-
-.manga-card {
-    background: #1a1a1a;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.3s ease;
-}
-
-.manga-card:hover {
-    transform: translateY(-5px);
-}
-
-.manga-card img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-}
-
-.manga-card p {
-    padding: 10px;
-    margin: 0;
-    color: white;
-    text-align: center;
-    font-weight: bold;
-}
-
-.section-title {
-    color: white;
-    padding: 20px;
-    margin: 0;
-}
-
-/* ... existing code ... */
-
-/* History Page Styles */
+/* History Page */
 .history-list {
   padding: 20px;
 }
@@ -334,8 +254,8 @@ body {
 }
 
 .manga-info h3 {
-  color: white;
   margin: 0;
+  color: white;
 }
 
 .manga-info p {
@@ -343,7 +263,7 @@ body {
   margin: 5px 0 0;
 }
 
-/* Genre Page Styles */
+/* Genre Page */
 .genre-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -365,93 +285,3 @@ body {
   transform: translateY(-2px);
   background: #8174e8;
 }
-
-/* Navigation Styles */
-nav {
-  background: #1a1a1a;
-  padding: 15px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-nav h2 {
-  color: white;
-  margin: 0;
-}
-
-nav ul {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-nav ul li {
-  margin-left: 20px;
-}
-
-nav ul li a {
-  color: white;
-  text-decoration: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-}
-
-nav ul li a.active {
-  background: #6c5ce7;
-}
-.logout-btn {
-  color: #6c5ce7 !important;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.logout-btn i {
-  font-size: 1.2em;
-}
-
-.logout-btn:hover {
-  color: #6c5ce7 !important;
-}
-/* Profile Page Styles */
-.profile-container {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-}
-
-.profile-card {
-  background: #2a2a2a;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.profile-info {
-  margin-bottom: 2rem;
-}
-
-.profile-info p {
-  margin: 1rem 0;
-  font-size: 1.1rem;
-  color: #fff;
-}
-
-.edit-profile-btn {
-  background: #6c5ce7;
-  color: white;
-  border: none;
-  padding: 0.8rem 2rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.3s ease;
-}
-
-.edit-profile-btn:hover {
-  background: #8174e8;
-}
-
-

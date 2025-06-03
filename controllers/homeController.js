@@ -1,34 +1,46 @@
-// controllers/homeController.js
 const pool = require('../config/db');
 
+// 1. Home page: Show all manga
 exports.getHomePage = async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM manga ORDER BY created_at DESC');
-    res.render('index', { mangas: result.rows });
+    res.render('landing', { mangas: result.rows });
   } catch (error) {
     console.error('Error loading home page:', error);
     res.status(500).send('Internal Server Error');
   }
 };
 
-// New function to get chapters for a specific manga
-exports.getMangaChapters = async (req, res) => {
-  const mangaId = req.params.id;
+exports.getMangaDetails = async (req, res) => {
+  const { titleSlug } = req.params;
 
   try {
-    const mangaQuery = await pool.query('SELECT * FROM manga WHERE id = $1', [mangaId]);
-    const chapterQuery = await pool.query('SELECT * FROM chapters WHERE manga_id = $1 ORDER BY created_at ASC', [mangaId]);
+    // Convert slug to title (e.g., "one-piece" => "one piece")
+    const title = titleSlug.replace(/-/g, ' ');
 
-    const manga = mangaQuery.rows[0];
-    const chapters = chapterQuery.rows;
+    // Fetch manga by title
+    const mangaResult = await pool.query(
+      'SELECT * FROM manga WHERE LOWER(title) = LOWER($1)',
+      [title]
+    );
 
-    if (!manga) {
-      return res.status(404).send('Manga not found');
+    if (mangaResult.rows.length === 0) {
+      return res.status(404).render('404');
     }
 
-    res.render('readManga', { manga, chapters });
-  } catch (error) {
-    console.error('Error loading manga chapters:', error);
-    res.status(500).send('Internal Server Error');
+    const manga = mangaResult.rows[0];
+
+    // Fetch chapters for that manga
+    const chaptersResult = await pool.query(
+      'SELECT * FROM chapters WHERE manga_id = $1 ORDER BY chapter_number ASC',
+      [manga.id]
+    );
+
+    const chapters = chaptersResult.rows;
+
+    res.render('mangaDetails', { manga, chapters });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
   }
 };

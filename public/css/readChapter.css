@@ -1,0 +1,123 @@
+/* Base Reset & Styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #121212;
+  color: #f1f1f1;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+/* Header Styling */
+header {
+  background-color: #3a3838;
+}
+
+nav {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+}
+
+nav h2 {
+  font-size: 24px;
+  color: #7d5fff;
+  font-weight: bold;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li a {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.logout-btn i {
+  margin-right: 6px;
+}
+
+/* Chapter Header Container */
+.chapter-header {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  background-color: #3a3838;
+  border-top: 1px solid #2e2e2e;
+  border-bottom: 1px solid #2e2e2e;
+}
+
+/* Breadcrumb Styling */
+.breadcrumb {
+  font-size: 13px;
+  color: #cccccc;
+}
+
+.breadcrumb strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Controls Styling */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.controls button {
+  background-color: #7d5fff;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.controls button:hover {
+  background-color: #2a2e3b;
+}
+
+/* PDF Viewer */
+.pdf-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+.pdf-viewer {
+  width: 100%;
+  min-height: 100vh;
+  height: 100dvh;
+  border: none;
+}

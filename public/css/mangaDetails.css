@@ -1,0 +1,205 @@
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #121212;
+  color: #f1f1f1;
+  line-height: 1.6;
+  
+}
+
+a {
+  text-decoration: none;
+  color: #7d5fff;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Header/Nav Styles */
+header {
+  background-color: #1e1e1e;
+  padding: 20px 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+nav {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav h2 {
+  color: #7d5fff;
+  font-size: 24px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+nav ul li a {
+  color: #f1f1f1;
+  font-size: 16px;
+}
+.nav-links li a:hover {
+  color: #4d85ec;
+}
+
+.logout-btn i {
+  margin-right: 6px;
+}
+
+/* Main Manga Container */
+.manga-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 40px auto;
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+/* Manga Header */
+.manga-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.manga-cover {
+  width: 250px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 0 8px rgba(0,0,0,0.6);
+}
+
+/* Manga Details */
+.manga-details {
+  flex: 1;
+  min-width: 250px;
+}
+
+.manga-title {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #7d5fff;
+}
+
+.manga-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.info-item {
+  flex: 1 1 200px;
+}
+
+.info-label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #aaaaaa;
+}
+
+.info-value {
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+/* Button Group */
+.button-group {
+  margin-top: 25px;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  padding: 10px 20px;
+  background-color: #7d5fff;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.action-btn:hover {
+  background-color: #00acc1;
+}
+
+.no-chapter-msg {
+  margin-top: 20px;
+  color: #f88;
+}
+
+/* Chapter Container */
+.chapter-container {
+  margin-top: 50px;
+}
+
+.chapter-container h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #7d5fff;
+  padding-bottom: 10px;
+}
+
+.chapter-list {
+  list-style: none;
+}
+
+.chapter-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2a2a2a;
+  padding: 12px 20px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+.chapter-item:hover {
+  background-color: #333;
+}
+
+.chapter-title {
+  font-size: 16px;
+  flex: 1;
+}
+
+.read-btn {
+  padding: 8px 16px;
+  background-color: #7d5fff;
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.read-btn:hover {
+  background-color: #0097a7;
+}
+/* Prevent underline on button-like elements */
+.action-btn,
+.read-btn {
+  text-decoration: none;
+}
+
+.action-btn:hover,
+.read-btn:hover {
+  text-decoration: none;
+}
+

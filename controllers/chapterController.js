@@ -1,49 +1,8 @@
 const pool = require('../config/db'); // ✅ Correct: using pg Pool
+const fs = require('fs');
+const path = require('path');
+const upload = require('../config/multerConfig');
 
-// GET /manga/:mangaId/chapters/:chapterId
-exports.viewChapter = async (req, res) => {
-    const { mangaId, chapterNumber } = req.params;
-    try {
-        // Get manga details
-        const mangaResult = await pool.query('SELECT * FROM manga WHERE id = $1', [mangaId]);
-        const manga = mangaResult.rows[0];
-
-        if (!manga) {
-            return res.status(404).send('Manga not found');
-        }
-
-        // Get all chapters for this manga
-        const chaptersResult = await pool.query(
-            'SELECT * FROM chapters WHERE manga_id = $1 ORDER BY chapter_number ASC',
-            [mangaId]
-        );
-        const chapters = chaptersResult.rows;
-
-        // Get current chapter
-        const currentChapter = chapters.find(ch => ch.chapter_number === parseInt(chapterNumber));
-        
-        if (!currentChapter) {
-            return res.status(404).send('Chapter not found');
-        }
-
-        // Get prev/next chapter numbers
-        const currentIndex = chapters.findIndex(ch => ch.chapter_number === parseInt(chapterNumber));
-        const prevChapter = currentIndex > 0 ? chapters[currentIndex - 1].chapter_number : null;
-        const nextChapter = currentIndex < chapters.length - 1 ? chapters[currentIndex + 1].chapter_number : null;
-
-        res.render('readManga', { 
-            manga,
-            chapters,
-            currentChapter: parseInt(chapterNumber),
-            prevChapter,
-            nextChapter,
-            currentChapterData: currentChapter
-        });
-    } catch (err) {
-        console.error('Error fetching chapter:', err);
-        res.status(500).send('Server error');
-    }
-};
 // GET /admin/chapters/edit/:id
 exports.editChapterForm = async (req, res) => {
   const { id } = req.params;
@@ -65,7 +24,7 @@ exports.editChapterForm = async (req, res) => {
 exports.getChapters = async (req, res) => {
   try {
     const mangaId = req.query.manga_id;
-    const mangasResult = await pool.query('SELECT id, title FROM manga');
+    const mangasResult = await pool.query('SELECT id, title, genres, status FROM manga');
     const mangas = mangasResult.rows;
 
     let chapters = [];
@@ -75,23 +34,34 @@ exports.getChapters = async (req, res) => {
       const mangaResult = await pool.query('SELECT * FROM manga WHERE id = $1', [mangaId]);
       manga = mangaResult.rows[0];
 
-      const chaptersResult = await pool.query('SELECT * FROM chapters WHERE manga_id = $1', [mangaId]);
+      const chaptersResult = await pool.query(
+        `SELECT chapters.*, manga.genres, manga.status
+         FROM chapters
+         JOIN manga ON chapters.manga_id = manga.id
+         WHERE manga_id = $1`,
+        [mangaId]
+      );
       chapters = chaptersResult.rows;
     } else {
-      const chaptersResult = await pool.query('SELECT * FROM chapters');
+      const chaptersResult = await pool.query(
+        `SELECT chapters.*, manga.genres, manga.status
+         FROM chapters
+         JOIN manga ON chapters.manga_id = manga.id`
+      );
       chapters = chaptersResult.rows;
     }
 
     res.render('chapters', {
-      manga,
       mangas,
       chapters
     });
+
   } catch (err) {
     console.error('❌ Error in getChapters:', err);
     res.status(500).send('Server error');
   }
 };
+
 
 // POST /admin/chapters - Add chapter
 exports.addChapter = async (req, res) => {
@@ -105,57 +75,120 @@ exports.addChapter = async (req, res) => {
   }
 };
 
-// GET /admin/chapters/upload
+
 exports.uploadChapter = async (req, res) => {
-    try {
-        const { manga_id, chapter_number, title } = req.body;
-        const content_url = req.file ? `/chapterpdfs/${req.file.filename}` : null;
-
-        await pool.query(
-            'INSERT INTO chapters (manga_id, title, chapter_number, content_url, created_at) VALUES ($1, $2, $3, $4, NOW())',
-            [manga_id, title, chapter_number, content_url]
-        );
-
-        res.redirect(`/manga/${manga_id}/chapters`);
-    } catch (err) {
-        console.error('Error uploading chapter:', err);
-        res.status(500).send('Error uploading chapter');
-    }
-};
-exports.getMangaChapters = async (req, res) => {
-    try {
-        const { mangaId } = req.params;
-        
-        // Get manga details
-        const mangaResult = await pool.query('SELECT * FROM manga WHERE id = $1', [mangaId]);
-        const manga = mangaResult.rows[0];
-
-        if (!manga) {
-            return res.status(404).send('Manga not found');
-        }
-
-        // Get chapters for this manga
-        const chaptersResult = await pool.query(
-            'SELECT id, title, chapter_number, content_url FROM chapters WHERE manga_id = $1 ORDER BY chapter_number ASC',
-            [mangaId]
-        );
-        const chapters = chaptersResult.rows;
-
-        res.render('readManga', { manga, chapters });
-    } catch (err) {
-        console.error('Error fetching manga chapters:', err);
-        res.status(500).send('Server error');
-    }
-};
-
-// DELETE /admin/chapters/:id
-exports.deleteChapter = async (req, res) => {
-  const { id } = req.params;
   try {
-    await pool.query('DELETE FROM chapters WHERE id = $1', [id]);
-    res.sendStatus(200);
+    const { manga_id, chapter_number, title } = req.body;
+
+    if (!req.file) {
+      return res.status(400).send('No file uploaded.');
+    }
+
+    const originalName = req.file.originalname;
+
+    // 1. Sanitize filename
+    const sanitizedFilename = originalName.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9.-]/g, '');
+    const newFilename = Date.now() + '-' + sanitizedFilename;
+
+    // 2. Rename and move file
+    const oldPath = req.file.path;
+    const newPath = path.join('public/chapterpdfs', newFilename);
+    fs.renameSync(oldPath, newPath);
+
+    // 3. Create content_url
+    const content_url = '/chapterpdfs/' + newFilename;
+
+    // 4. Save chapter to DB
+    await pool.query(
+      `INSERT INTO chapters (manga_id, chapter_number, title, content_url, created_at)
+       VALUES ($1, $2, $3, $4, NOW())`,
+      [manga_id, chapter_number, title, content_url]
+    );
+
+    res.redirect('/admin/chapters');
   } catch (error) {
-    console.error('Error deleting chapter:', error);
-    res.status(500).send('Server Error');
+    console.error('Error uploading chapter:', error);
+    res.status(500).send('Internal Server Error');
   }
 };
+
+exports.getMangaChapters = async (req, res) => {
+  try {
+    const { mangaId } = req.params;
+
+    // Get all mangas for the dropdown
+    const mangasResult = await pool.query('SELECT id, title FROM manga');
+    const mangas = mangasResult.rows;
+
+    // Get selected manga
+    const mangaResult = await pool.query('SELECT * FROM manga WHERE id = $1', [mangaId]);
+    const manga = mangaResult.rows[0];
+
+    if (!manga) {
+      return res.status(404).send('Manga not found');
+    }
+
+    // Get chapters for the selected manga WITH genres and status from manga table
+    const chaptersResult = await pool.query(
+      `SELECT chapters.id, chapters.title, chapters.chapter_number, chapters.content_url,
+              manga.genres, manga.status
+       FROM chapters
+       JOIN manga ON chapters.manga_id = manga.id
+       WHERE chapters.manga_id = $1
+       ORDER BY chapters.chapter_number ASC`,
+      [mangaId]
+    );
+
+    const chapters = chaptersResult.rows;
+
+    // DEBUG LOG — optional
+    // console.log(chapters);
+
+    res.render('chapters', {
+      mangas,
+      chapters
+    });
+  } catch (err) {
+    console.error('❌ Error in getMangaChapters:', err);
+    res.status(500).send('Server error');
+  }
+};
+
+
+exports.deleteChapter = async (req, res) => {
+  const chapterId = parseInt(req.params.id);
+
+  try {
+    const result = await pool.query('SELECT * FROM chapters WHERE id = $1', [chapterId]);
+    const chapter = result.rows[0];
+
+    if (!chapter) return res.redirect('/admin/chapters'); // Make sure this is the correct route
+
+    // Delete chapter from DB
+    await pool.query('DELETE FROM chapters WHERE id = $1', [chapterId]);
+
+    // Delete PDF file
+    if (chapter.pdf_url) {
+      const filePath = path.join(
+        __dirname,
+        '..',
+        'public',
+        chapter.pdf_url.startsWith('/') ? chapter.pdf_url.slice(1) : chapter.pdf_url
+      );
+
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.warn(`Failed to delete PDF: ${filePath}`, err.message);
+        } else {
+          console.log(`Deleted PDF: ${filePath}`);
+        }
+      });
+    }
+
+    res.redirect('/admin/chapters');
+  } catch (err) {
+    console.error('Error deleting chapter:', err.message);
+    res.redirect('/admin/chapters');
+  }
+};
+

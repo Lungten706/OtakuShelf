@@ -10,15 +10,11 @@
 </head>
 
 <body>
-
   <header>
     <nav>
-      <h2>OtakuShelf</h2>
+      <h2 style="color: #7d5fff;">OtakuShelf</h2>
       <ul>
         <li><a href="/home">Home</a></li>
-        <li><a href="/genres">Genres</a></li>
-        <li><a href="/history">History</a></li>
-        <li><a href="/profile">Profile</a></li>
         <li><a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
       </ul>
     </nav>
@@ -29,12 +25,13 @@
       <% if (mangas.length> 0) { %>
         <% mangas.forEach(manga=> { %>
           <div class="manga-card">
-            <a href="/manga/<%= manga.id %>">
+            <a href="/home/<%= manga.title.replace(/\s+/g, '-').toLowerCase() %>">
               <img src="<%= manga.cover_url %>" alt="<%= manga.title %>">
               <h2>
                 <%= manga.title %>
               </h2>
             </a>
+
 
           </div>
           <% }); %>

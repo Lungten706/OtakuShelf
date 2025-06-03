@@ -2,23 +2,46 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 
-// Landing page
-router.get('/', (req, res) => res.render('landing')); // assuming you have landing.ejs
+// GET landing page
+router.get('/', authController.getLanding);
 
-// Signup & Login pages (GET)
-router.get('/signup', (req, res) => res.render('signup'));
-router.get('/login', (req, res) => res.render('login'));
+// GET signup page
+router.get('/signup', authController.getSignup);
 
-// Signup & Login handling (POST)
+// POST signup form
 router.post('/signup', authController.signup);
+
+// GET login page
+router.get('/login', authController.getLogin);
+
+// POST login form
 router.post('/login', authController.login);
 
-// Home & Dashboard pages (protected)
+// Logout
+router.get('/logout', authController.logout);
+
+// GET home (protected)
 router.get('/home', authController.home);
+
+// GET dashboard (admin only)
 router.get('/dashboard', authController.getDashboard);
 
+// GET landing
+// router.get('/', authController.getLanding);
 
-// Logout route
-router.get('/logout', authController.logout);
+// GET email verification
+router.get('/verify-email', authController.verifyEmail);
+
+// Forgot password
+// GET forgot password page
+router.get('/forgot-password', (req, res) => {
+  res.render('forgot-password');
+});
+
+router.post('/forgot-password', authController.forgotPassword);
+
+// Reset password pages
+router.get('/reset-password/:token', authController.getResetPassword);
+router.post('/reset-password/:token', authController.resetPassword);
 
 module.exports = router;
