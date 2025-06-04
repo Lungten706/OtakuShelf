@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const session = require('express-session');
 const helmet = require('helmet');
 const flash = require('connect-flash');
+const Manga = require('./models/manga')
 
 
 const authRoutes = require('./routes/authRoutes');
@@ -80,6 +81,8 @@ app.use('/', readRoutes);
 app.use((req, res) => {
   res.status(404).render('404', { url: req.originalUrl });
 });
+
+Manga.createTableIfNotExists();
 
 // Start the server
 app.listen(PORT, () => {

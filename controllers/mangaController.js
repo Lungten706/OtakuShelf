@@ -1,4 +1,6 @@
 const pool = require('../config/db');
+const fs = require('fs');
+const path = require('path');
 
 // Handle favicon requests
 exports.handleFavicon = (req, res) => {
@@ -6,7 +8,6 @@ exports.handleFavicon = (req, res) => {
 };
 
 // Render Manga Admin Page
-
 exports.renderMangaAdminPage = async (req, res) => {
     try {
         const result = await pool.query(`
@@ -38,15 +39,32 @@ exports.renderMangaAdminPage = async (req, res) => {
         });
     }
 };
+
 // Add new manga - Updated route handler
 exports.addManga = async (req, res) => {
     try {
         const { title, author, genres, status, chapters } = req.body;
         const cover_url = req.file ? `/mangauploads/${req.file.filename}` : null;
 
+        // Normalize genres to array of strings
+        let genresArray;
+        if (Array.isArray(genres)) {
+            genresArray = genres.map(g => g.trim());
+        } else if (typeof genres === 'string') {
+            genresArray = genres.includes(',')
+                ? genres.split(',').map(g => g.trim())
+                : [genres.trim()];
+        } else {
+            genresArray = [];
+        }
+
+        console.log('Inserting genres as:', genresArray);
+
         await pool.query(
-            'INSERT INTO manga (title, author, cover_url, genres, status, chapters, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW())',
-            [title, author, cover_url, genres, status, chapters]
+            `INSERT INTO manga 
+             (title, author, cover_url, genres, status, chapters, created_at, updated_at) 
+             VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW())`,
+            [title, author, cover_url, genresArray, status, chapters]
         );
 
         res.redirect('/manga');
@@ -55,7 +73,6 @@ exports.addManga = async (req, res) => {
         res.status(500).send('Error uploading manga');
     }
 };
-
 
 // Get All Manga List (User side or generic)
 exports.getMangaList = async (req, res) => {
@@ -74,13 +91,7 @@ exports.getMangaList = async (req, res) => {
     }
 };
 
-
-// Get Manga by ID with basic validation
-
-// Get Manga Details + Chapters
-const fs = require('fs');
-const path = require('path');
-
+// Delete Manga by ID + cleanup image file
 exports.deleteManga = async (req, res) => {
     const mangaId = parseInt(req.params.id);
 
@@ -110,4 +121,3 @@ exports.deleteManga = async (req, res) => {
         res.redirect('/manga');
     }
 };
-
