@@ -37,6 +37,7 @@ const Manga = {
           cover_url TEXT,
           chapters INTEGER,
           status VARCHAR(50),
+          genres TEXT[],
           created_at TIMESTAMP DEFAULT NOW(),
           updated_at TIMESTAMP DEFAULT NOW()
         );

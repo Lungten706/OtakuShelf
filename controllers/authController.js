@@ -46,7 +46,7 @@ exports.signup = async (req, res) => {
     `, [name, email, hashedPassword, role === 'admin', verificationToken]);
 
     // Send verification link
-    const verificationLink = `http://localhost:${process.env.PORT}/auth/verify-email?token=${verificationToken}`;
+    const verificationLink = `http://localhost:${process.env.PORT}/verify-email?token=${verificationToken}`;
 
     await transporter.sendMail({
       from: `"OtakuShelf" <${process.env.EMAIL_USER}>`,
@@ -93,6 +93,37 @@ exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    // 1. Admin login check
+    if (email === process.env.ADMIN_EMAIL) {
+      console.log("1️⃣ Raw email from form:", email);
+      console.log("2️⃣ Trimmed email:", email.trim());
+      console.log("3️⃣ Expected admin email:", process.env.ADMIN_EMAIL.trim());
+
+      console.log("4️⃣ Raw password from form:", password);
+      console.log("5️⃣ Expected admin hash:", process.env.ADMIN_PASSWORD_HASH.trim());
+
+      const isAdminPasswordMatch = await bcrypt.compare(
+        password,
+        process.env.ADMIN_PASSWORD_HASH.trim()
+      );
+      console.log("6️⃣ Password match result:", isAdminPasswordMatch);
+
+
+
+      if (!isAdminPasswordMatch) {
+        return res.render('login', { error: 'Invalid email or password' });
+      }
+
+      req.session.user = {
+        id: 'admin-fallback',
+        email,
+        isAdmin: true,
+      };
+
+      return res.redirect('/dashboard');
+    }
+
+    // 2. Regular DB-based login
     const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
     if (result.rows.length === 0) {
       return res.render('login', { error: 'Invalid email or password' });
@@ -111,7 +142,7 @@ exports.login = async (req, res) => {
     req.session.user = {
       id: user.id,
       email: user.email,
-      isAdmin: user.is_admin
+      isAdmin: user.is_admin,
     };
 
     return user.is_admin ? res.redirect('/dashboard') : res.redirect('/home');
@@ -121,6 +152,7 @@ exports.login = async (req, res) => {
     res.status(500).render('login', { error: 'Login failed. Try again later.' });
   }
 };
+
 
 // Forgot password: request reset
 exports.forgotPassword = async (req, res) => {
