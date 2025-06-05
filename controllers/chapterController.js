@@ -84,21 +84,25 @@ exports.uploadChapter = async (req, res) => {
       return res.status(400).send('No file uploaded.');
     }
 
-    const originalName = req.file.originalname;
+    let content_url;
 
-    // 1. Sanitize filename
-    const sanitizedFilename = originalName.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9.-]/g, '');
-    const newFilename = Date.now() + '-' + sanitizedFilename;
+    if (process.env.ON_RENDER === 'true') {
+      // ✅ Cloudinary: use hosted file URL
+      content_url = req.file.path;
+    } else {
+      // ✅ Local: sanitize filename and move
+      const originalName = req.file.originalname;
+      const sanitizedFilename = originalName.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9.-]/g, '');
+      const newFilename = Date.now() + '-' + sanitizedFilename;
 
-    // 2. Rename and move file
-    const oldPath = req.file.path;
-    const newPath = path.join('public/chapterpdfs', newFilename);
-    fs.renameSync(oldPath, newPath);
+      const oldPath = req.file.path;
+      const newPath = path.join('public/chapterpdfs', newFilename);
+      fs.renameSync(oldPath, newPath);
 
-    // 3. Create content_url
-    const content_url = '/chapterpdfs/' + newFilename;
+      content_url = '/chapterpdfs/' + newFilename;
+    }
 
-    // 4. Save chapter to DB
+    // Save to DB
     await pool.query(
       `INSERT INTO chapters (manga_id, chapter_number, title, content_url, created_at)
        VALUES ($1, $2, $3, $4, NOW())`,

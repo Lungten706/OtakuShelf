@@ -6,7 +6,8 @@ const chapterController = require('../controllers/chapterController');
 const { isAdmin, isLoggedIn } = require('../middleware/authMiddleware');
 
 // Centralized Multer config
-const upload = require('../config/multerConfig');
+const upload = require('../config/uploadMiddleware'); // ✅ Supports both Cloudinary & local
+
 
 // Handle favicon.ico requests
 router.get('/favicon.ico', mangaController.handleFavicon);
