@@ -84,7 +84,7 @@ app.use((req, res) => {
     console.log("✅ All tables checked/created");
 
     app.listen(PORT, () => {
-      console.log(`✅ Server running at ${BASE_URL}`);
+      console.log(`✅ Server running at ${process.env.BASE_URL || `http://localhost:${PORT}`}`);
     });
   } catch (err) {
     console.error("❌ Error creating tables:", err);

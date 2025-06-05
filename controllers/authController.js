@@ -95,12 +95,6 @@ exports.login = async (req, res) => {
   try {
     // 1. Admin login check
     if (email === process.env.ADMIN_EMAIL) {
-      console.log("1️⃣ Raw email from form:", email);
-      console.log("2️⃣ Trimmed email:", email.trim());
-      console.log("3️⃣ Expected admin email:", process.env.ADMIN_EMAIL.trim());
-
-      console.log("4️⃣ Raw password from form:", password);
-      console.log("5️⃣ Expected admin hash:", process.env.ADMIN_PASSWORD_HASH.trim());
 
       const isAdminPasswordMatch = await bcrypt.compare(
         password,
