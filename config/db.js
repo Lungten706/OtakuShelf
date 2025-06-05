@@ -10,7 +10,7 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD,
   ssl: {
     rejectUnauthorized: false // needed for Render production DBs
-  }
+    } 
 });
 
 pool.connect()
