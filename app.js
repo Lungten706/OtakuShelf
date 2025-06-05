@@ -25,7 +25,7 @@ console.log('ADMIN_PASSWORD_HASH:', process.env.ADMIN_PASSWORD_HASH ? '[SET]' : 
 
 // Initialize Express app
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 // Security middleware
 app.use(helmet());
@@ -84,7 +84,7 @@ app.use((req, res) => {
     console.log("✅ All tables checked/created");
 
     app.listen(PORT, () => {
-      console.log(`✅ Server running at http://localhost:${PORT}`);
+      console.log(`✅ Server running at ${BASE_URL}`);
     });
   } catch (err) {
     console.error("❌ Error creating tables:", err);
