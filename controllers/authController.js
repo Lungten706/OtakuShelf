@@ -46,7 +46,8 @@ exports.signup = async (req, res) => {
     `, [name, email, hashedPassword, role === 'admin', verificationToken]);
 
     // Send verification link
-    const verificationLink = `http://localhost:${process.env.PORT}/verify-email?token=${verificationToken}`;
+    // Send verification link
+    const verificationLink = `${process.env.BASE_URL}/verify-email?token=${verificationToken}`;
 
     await transporter.sendMail({
       from: `"OtakuShelf" <${process.env.EMAIL_USER}>`,
@@ -54,6 +55,7 @@ exports.signup = async (req, res) => {
       subject: 'Verify your email',
       html: `<h3>Hello ${name},</h3><p>Please verify your email by clicking below:</p><a href="${verificationLink}">Verify Email</a>`
     });
+
 
     res.render('signup', { message: 'Signup successful! Please check your email to verify your account.' });
 
@@ -164,7 +166,8 @@ exports.forgotPassword = async (req, res) => {
       [token, expiry, email]
     );
 
-    const resetLink = `http://localhost:${process.env.PORT}/reset-password/${token}`;
+    const resetLink = `${process.env.BASE_URL}/reset-password/${token}`;
+
 
     await transporter.sendMail({
       from: `"OtakuShelf" <${process.env.EMAIL_USER}>`,
