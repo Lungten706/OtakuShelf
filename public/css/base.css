@@ -62,3 +62,38 @@ body {
   background-color: #a78bfa;
   color: black;
 }
+/* Extra small devices (phones < 360px) */
+@media (max-width: 360px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Small phones (<= 480px) */
+@media (max-width: 480px) {
+  html {
+    font-size: 15px;
+  }
+  .sidebar a {
+    font-size: 0.9rem;
+  }
+}
+
+/* Medium phones (<= 600px) */
+@media (max-width: 600px) {
+  .sidebar {
+    flex-direction: row;
+  }
+}
+
+/* Tablets and large phones (<= 768px) */
+@media (max-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
